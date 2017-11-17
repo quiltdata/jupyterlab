@@ -1,7 +1,7 @@
 {
-  "name": "jupyterlab_xkcd",
+  "name": "jupyterlab_quilt",
   "version": "0.1.0",
-  "description": "shows random xkcd",
+  "description": "Quilt Data plugin for Jupyter Labs",
   "author": "Calvin Cochran",
   "main": "lib/index.js",
   "keywords": [
