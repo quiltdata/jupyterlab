@@ -1,7 +1,6 @@
-# jupyterlab_xkcd
+# jupyterlab_quilt
 
-shows random xkcd
-
+Quilt Data plugin for JupyterLab
 
 ## Prerequisites
 
@@ -10,7 +9,7 @@ shows random xkcd
 ## Installation
 
 ```bash
-jupyter labextension install jupyterlab_xkcd
+jupyter labextension install jupyterlab_quilt
 ```
 
 ## Development

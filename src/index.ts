@@ -80,7 +80,7 @@ class QuiltWidget extends Widget {
 }
 
 /**
- * Initialization data for the jupyterlab_xkcd extension.
+ * Initialization data for the jupyterlab_quilt extension.
  */
 const extension: JupyterLabPlugin<void> = {
   id: 'Quilt',
