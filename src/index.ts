@@ -34,7 +34,7 @@ import '../style/index.css';
 (window as any).gpanel = 'asdf';
 
 class QuiltWidget extends Widget {
-  constructor() {
+  constructor(printCode : any) {
     super();
 
     this.id = 'quilt';
@@ -50,7 +50,7 @@ class QuiltWidget extends Widget {
       className : 'jp-AddIcon'
     });
 
-    this.toolbar.addItem('New', this.tb);
+    // this.toolbar.addItem('New', this.tb);
 
     let search = new Widget();
     let input = document.createElement('input');
@@ -59,7 +59,7 @@ class QuiltWidget extends Widget {
     search.node.appendChild(input); 
 
     layout.addWidget(search);
-    layout.addWidget(this.toolbar);
+    // layout.addWidget(this.toolbar);
 
     let results = new Widget();
     let ul = document.createElement('ul');
@@ -79,8 +79,16 @@ class QuiltWidget extends Widget {
               ul.removeChild(ul.children.item(0));
             }
             json.packages.forEach((e:any) => {
-              let i = document.createElement('ul');
-              i.innerText = e.name;
+              let i = document.createElement('li');
+              i.innerText = e.owner + '/' + e.name;
+              function print() {
+                var code = 'import quilt\n' +
+                  'quilt.install("' + e.owner + '/' + e.name + 
+                    '", force=True)\n' +
+                  'from quilt.data.' + e.owner + ' import ' + e.name;
+                printCode(code);
+              };
+              i.addEventListener('click', print);
               ul.appendChild(i);
             });
           };
@@ -91,21 +99,38 @@ class QuiltWidget extends Widget {
 
 
     this.toolbar.addClass('jp-FileBrowser-toolbar');
-    this.setOnClick();
-
   }
 
   setOnClick(f? : () => void) {
     this.tb.node.addEventListener('click', f, false);
   }
 
+  updateSendPython(f :(code : string) => void) {
+    this.sendPython = f;
+  }
+
   readonly toolbar : Toolbar<Widget>;
   readonly tb : ToolbarButton;
+  private sendPython? : (code : string) => void;
 
 }
 
 class QuiltNotebookExtension implements 
     DocumentRegistry.IWidgetExtension<NotebookPanel, INotebookModel> {
+
+  constructor(setActiveNotebook : any) {
+    this.setActiveNotebook = setActiveNotebook;
+  }
+
+  insertPython(command : string) : void {
+    var text = this.panel.notebook.activeCell.model.value.text;
+    if (text === '') {
+      this.panel.notebook.activeCell.model.value.text = command;
+    } else {
+      NotebookActions.insertBelow(this.panel.notebook);
+      this.panel.notebook.activeCell.model.value.text = command;
+    }
+  }
 
   executePython(commands : Array<string>) : void {
     this.panel.notebook.activeCell.model.value.text = commands.shift();
@@ -122,13 +147,14 @@ class QuiltNotebookExtension implements
   createNew(panel: NotebookPanel, context: DocumentRegistry.IContext<INotebookModel>) : IDisposable {
     this.panel = panel;
     this.context = context;
-    (window as any)['panel'] = panel;
+    this.setActiveNotebook(this.insertPython.bind(this));
     console.log('created');
     return new DisposableDelegate(() => {console.log('disposed')});
   }
 
   private panel : NotebookPanel;
   private context : DocumentRegistry.IContext<INotebookModel>;
+  private setActiveNotebook : any;
 }
 
 /**
@@ -141,15 +167,27 @@ const extension: JupyterLabPlugin<void> = {
   activate: (app, palette: ICommandPalette) => {
     console.log('JupyterLab extension Quilt is activated!');
 
-    let widget = new QuiltWidget();
 
+    let print : { print? : (code : string) => void } = {};
+    function printCode(code : string) {
+      if (print.print) {
+        print.print(code);
+      }
+    };
+    function setActiveNotebook(f : (code : string) => void) {
+      print.print = f;
+    }
+
+    let widget = new QuiltWidget(printCode);
 
     app.shell.addToLeftArea(widget);
 
-    let ext = new QuiltNotebookExtension();
+    let ext = new QuiltNotebookExtension(setActiveNotebook);
     app.docRegistry.addWidgetExtension('Notebook', ext);
+    /*
     widget.setOnClick(() => 
-      ext.executePython(['import quilt', 'quilt.install("akarve/sales", force=True)']));
+      ext.insertPython('import quilt\nquilt.install("akarve/sales", force=True)\nfrom quilt.data.akarve import sales'));
+     */
   }
 };
 
