@@ -26,7 +26,8 @@ import {
 import {
   NotebookActions,
   NotebookPanel,
-  INotebookModel
+  INotebookModel,
+  INotebookTracker
 } from '@jupyterlab/notebook';
 
 import '../style/index.css';
@@ -122,7 +123,7 @@ class QuiltNotebookExtension implements
     this.setActiveNotebook = setActiveNotebook;
   }
 
-  insertPython(command : string) : void {
+  insertPython = (command : string) : void => {
     var text = this.panel.notebook.activeCell.model.value.text;
     if (text === '') {
       this.panel.notebook.activeCell.model.value.text = command;
@@ -144,12 +145,17 @@ class QuiltNotebookExtension implements
     }
   }
 
+  setActive = () => {
+    this.setActiveNotebook(this.insertPython);
+  };
+
   createNew(panel: NotebookPanel, context: DocumentRegistry.IContext<INotebookModel>) : IDisposable {
     this.panel = panel;
     this.context = context;
-    this.setActiveNotebook(this.insertPython.bind(this));
-    console.log('created');
-    return new DisposableDelegate(() => {console.log('disposed')});
+    this.setActive();
+    panel.notebook.stateChanged.connect(() => this.setActive());
+    panel.notebook.selectionChanged.connect(() => this.setActive());
+    return new DisposableDelegate(() => {});
   }
 
   private panel : NotebookPanel;
@@ -163,8 +169,8 @@ class QuiltNotebookExtension implements
 const extension: JupyterLabPlugin<void> = {
   id: 'Quilt',
   autoStart: true,
-  requires: [ICommandPalette],
-  activate: (app, palette: ICommandPalette) => {
+  requires: [ICommandPalette, INotebookTracker],
+  activate: (app, palette: ICommandPalette, tracker : INotebookTracker) => {
     console.log('JupyterLab extension Quilt is activated!');
 
 
@@ -184,10 +190,6 @@ const extension: JupyterLabPlugin<void> = {
 
     let ext = new QuiltNotebookExtension(setActiveNotebook);
     app.docRegistry.addWidgetExtension('Notebook', ext);
-    /*
-    widget.setOnClick(() => 
-      ext.insertPython('import quilt\nquilt.install("akarve/sales", force=True)\nfrom quilt.data.akarve import sales'));
-     */
   }
 };
 
