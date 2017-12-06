@@ -65,6 +65,7 @@ class QuiltWidget extends Widget {
     let results = new Widget();
     let ul = document.createElement('ul');
     ul.id = 'quilt-search-results';
+    ul.setAttribute('class', 'jp-DirListing-content');
     results.node.appendChild(ul);
     layout.addWidget(results);
 
@@ -82,6 +83,7 @@ class QuiltWidget extends Widget {
             json.packages.forEach((e:any) => {
               let i = document.createElement('li');
               i.innerText = e.owner + '/' + e.name;
+              i.setAttribute('class', 'jp-DirListing-item');
               function print() {
                 var code = 'import quilt\n' +
                   'quilt.install("' + e.owner + '/' + e.name + 
