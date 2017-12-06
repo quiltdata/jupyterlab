@@ -174,14 +174,19 @@ const extension: JupyterLabPlugin<void> = {
     console.log('JupyterLab extension Quilt is activated!');
 
 
-    let print : { print? : (code : string) => void } = {};
     function printCode(code : string) {
-      if (print.print) {
-        print.print(code);
+      if (tracker.currentWidget) {
+        var cell = tracker.currentWidget.notebook.activeCell;
+        var text = cell.model.value.text;
+        if (text === '') {
+          cell.model.value.text = code;
+        } else {
+          NotebookActions.insertBelow(tracker.currentWidget.notebook);
+          tracker.currentWidget.notebook.activeCell.model.value.text = code;
+        }
       }
     };
     function setActiveNotebook(f : (code : string) => void) {
-      print.print = f;
     }
 
     let widget = new QuiltWidget(printCode);
