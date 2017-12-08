@@ -5,3 +5,4 @@ node_modules/
 .ipynb_checkpoints
 *.swp
 *.ipynb
+quilt_packages/
