@@ -9,7 +9,7 @@ Quilt Data plugin for JupyterLab
 ## Installation
 
 ```bash
-jupyter labextension install jupyterlab_quilt
+jupyter labextension install jupyterlab-quilt
 ```
 
 ## Development
