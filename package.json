@@ -1,5 +1,5 @@
 {
-  "name": "jupyterlab_quilt",
+  "name": "jupyterlab-quilt",
   "version": "0.1.0",
   "description": "Quilt Data plugin for Jupyter Labs",
   "author": "Calvin Cochran",
