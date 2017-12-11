@@ -3,10 +3,6 @@ import {
 } from '@jupyterlab/application';
 
 import {
-  ICommandPalette
-} from '@jupyterlab/apputils';
-
-import {
   Widget
 } from '@phosphor/widgets';
 
@@ -110,8 +106,8 @@ class QuiltWidget extends Widget {
 const extension: JupyterLabPlugin<void> = {
   id: 'Quilt',
   autoStart: true,
-  requires: [ICommandPalette, INotebookTracker],
-  activate: (app, palette: ICommandPalette, tracker : INotebookTracker) => {
+  requires: [INotebookTracker],
+  activate: (app, tracker : INotebookTracker) => {
     console.log('JupyterLab extension Quilt is activated!');
 
 
