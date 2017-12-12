@@ -25,6 +25,18 @@ class QuiltWidget extends Widget {
 
     let node = this.node;
 
+    var inputValue = '';
+    function updateInputValue(evt : any) {
+      inputValue = evt.target.value;
+    };
+    
+    function kd(e : React.KeyboardEvent<HTMLInputElement>) {
+      if (e.keyCode === 13) {
+        handleSearch(inputValue);
+        e.preventDefault();
+      }
+    };
+
     function handleSearch(query : string) {
       fetch('https://pkg.quiltdata.com/api/search/?q=' + query)
         .then(response => response.json())
@@ -36,18 +48,6 @@ class QuiltWidget extends Widget {
             );
           }
         });
-    };
-
-    var inputValue = '';
-    function updateInputValue(evt : any) {
-      inputValue = evt.target.value;
-    };
-    
-    function kd(e : React.KeyboardEvent<HTMLInputElement>) {
-      if (e.keyCode === 13) {
-        handleSearch(inputValue);
-        e.preventDefault();
-      }
     };
 
     type QuiltQueryResult = Array<{owner : string, name : string}>;
@@ -73,26 +73,37 @@ class QuiltWidget extends Widget {
       }
     };
 
-    function QuiltWidgetElement(props : 
-        {results : QuiltQueryResult, kd : (e : React.KeyboardEvent<HTMLInputElement>) => void}) {
-      return <div className='jp-DirListing'>
-        <div className="p-CommandPalette-search">
+    function QuiltSearchBar(props : {kd : (e : React.KeyboardEvent<HTMLInputElement>) => void}) {
+      return <div className="p-CommandPalette-search">
           <div className="p-CommandPalette-wrapper">
             <input onKeyDown={props.kd} id="quiltwidget-input" 
               className="p-CommandPalette-input" placeholder="SEARCH"
               onChange={evt => updateInputValue(evt)}
             />
           </div>
-        </div>
-        <ul className='jp-DirListing-content'>
-          <QuiltResultList results={props.results}/>
-        </ul>
+        </div>;
+    };
+
+    function QuiltWidgetElement(props : 
+        {results : QuiltQueryResult, kd : (e : React.KeyboardEvent<HTMLInputElement>) => void}) {
+      var res = (props.results === null || props.results.length) ? 
+          <ul className='jp-DirListing-content' style={{"overflow": "auto"}}>
+            <QuiltResultList results={props.results || []}/>
+          </ul>
+        :
+          <div className='jp-DirListing-content' style={{"padding": "20px"}}>
+            <span>No results!</span>
+          </div>
+      ;
+      return <div className='jp-DirListing' style={{"height": "100%"}}>
+        <QuiltSearchBar kd={kd} />
+        {res}
       </div>
       ;
     };
 
     ReactDOM.render(
-      <QuiltWidgetElement kd={kd} results={[]} />
+      <QuiltWidgetElement kd={kd} results={null} />
       , this.node
     );
 
