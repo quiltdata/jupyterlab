@@ -60,6 +60,7 @@ class QuiltWidget extends Widget {
       render() {
         return this.props.results.map((result : {owner : string, name : string}) => { 
           let name = result.owner + '/' + result.name;
+          let landingpage = 'https://quiltdata.com/package/' + name;
           return <li onClick={(e : any) => {
             e.preventDefault(); 
             var code = 'import quilt\n' +
@@ -68,7 +69,12 @@ class QuiltWidget extends Widget {
               'from quilt.data.' + result.owner + ' import ' + result.name;
             printCode(code);
           }}
-            className='jp-DirListing-item' key={name}>{name}</li>
+            className='jp-DirListing-item' key={name}>{name}
+            <div style={{'flex':'0 0 auto'}}>
+              <input type='button' 
+                  className='p-TabBar-tabCloseIcon' onClick={() => {window.open(landingpage)}} />
+            </div>
+            </li>
         });
       }
     };
