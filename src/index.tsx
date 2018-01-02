@@ -61,7 +61,8 @@ class QuiltWidget extends Widget {
         return this.props.results.map((result : {owner : string, name : string}) => { 
           let name = result.owner + '/' + result.name;
           let landingpage = 'https://quiltdata.com/package/' + name;
-          return <li key={name}>
+          return <li className='jp-DirListing-item' key={name}>
+              <div style={{'width':'100%'}}>
               <div
                 onClick={(e : any) => {
                 e.preventDefault(); 
@@ -71,12 +72,15 @@ class QuiltWidget extends Widget {
                   'from quilt.data.' + result.owner + ' import ' + result.name;
                 printCode(code);
                 }}
-                className='jp-DirListing-item' key={name}>
+                style={{'width':'80%', 'display':'inline-block'}} key={name}>
               {name}
               </div>
-            <div style={{'float':'right', 'yOffset':'-20px'}}>
+            <div style={{'background':'http://www.pvhc.net/img32/hpgctwysginkuscamdih.jpg', 
+                'float':'right', 'display':'inline-block',
+                'ariaHidden':'true'}}>
               <input type='button' 
                   className='p-TabBar-tabCloseIcon' onClick={() => {window.open(landingpage)}} />
+            </div>
             </div>
           </li>
         });
