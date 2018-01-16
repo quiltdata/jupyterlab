@@ -106,7 +106,7 @@ class QuiltWidget extends Widget {
           </ul>
         :
           <div className='jp-DirListing-content' style={{"padding": "20px"}}>
-            <span>No results!</span>
+            <span>No results</span>
           </div>
       ;
       return <div className='jp-DirListing' style={{"height": "100%"}}>
