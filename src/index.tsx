@@ -61,28 +61,46 @@ class QuiltWidget extends Widget {
         return this.props.results.map((result : {owner : string, name : string}) => { 
           let name = result.owner + '/' + result.name;
           let landingpage = 'https://quiltdata.com/package/' + name;
-          return <li className='jp-DirListing-item' key={name}>
+          return (
+            <li className='jp-DirListing-item' key={name}>
               <div style={{'width':'100%'}}>
-              <div
-                onClick={(e : any) => {
-                e.preventDefault(); 
-                var code = 'import quilt\n' +
-                  'quilt.install("' + result.owner + '/' + result.name + 
-                    '", force=True)\n' +
-                  'from quilt.data.' + result.owner + ' import ' + result.name;
-                printCode(code);
-                }}
-                style={{'width':'80%', 'display':'inline-block'}} key={name}>
-              {name}
+                <div
+                  onClick={
+                    (e : any) => {
+                      e.preventDefault(); 
+                      const code = 'import quilt\n' +
+                        'quilt.install("' + result.owner + '/' + result.name + 
+                          '", force=True)\n' +
+                        'from quilt.data.' + result.owner + ' import ' + result.name;
+                      printCode(code);
+                    }
+                  }
+                  style={{
+                    'display':'inline-block',
+                    'overflow': 'hidden',
+                    'text-overflow': 'ellipsis',
+                    'width':'90%',
+                  }}
+                  key={name}
+                  title={name}
+                >
+                  {name}
+                </div>
+                <div 
+                  onClick={() => {window.open(landingpage)}}
+                  style={{
+                    'float':'right',
+                    'opacity': 0.3,
+                    'display':'inline-block',
+                    'ariaHidden':'true'
+                  }}
+                >
+                  { //TODO load from disk with webpack; does not work offline }
+                  <img height="20" src="https://d1zvn9rasera71.cloudfront.net/linkext.png" />
+                </div>
               </div>
-            <div style={{'background':'http://www.pvhc.net/img32/hpgctwysginkuscamdih.jpg', 
-                'float':'right', 'display':'inline-block',
-                'ariaHidden':'true'}}>
-              <input type='button' 
-                  className='p-TabBar-tabCloseIcon' onClick={() => {window.open(landingpage)}} />
-            </div>
-            </div>
-          </li>
+            </li>
+          );
         });
       }
     };
@@ -106,7 +124,7 @@ class QuiltWidget extends Widget {
           </ul>
         :
           <div className='jp-DirListing-content' style={{"padding": "20px"}}>
-            <span>No results!</span>
+            <span>No results</span>
           </div>
       ;
       return <div className='jp-DirListing' style={{"height": "100%"}}>
