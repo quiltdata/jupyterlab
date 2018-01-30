@@ -95,7 +95,7 @@ class QuiltWidget extends Widget {
                     'ariaHidden':'true'
                   }}
                 >
-                  //TODO load from disk with webpack; does not work offline {}
+                  {/*TODO load from disk with webpack; does not work offline*/}
                   <img height="20" src="https://d1zvn9rasera71.cloudfront.net/linkext.png" />
                 </div>
               </div>
