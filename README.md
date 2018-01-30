@@ -31,10 +31,9 @@ jupyter lab
 For a development install (requires npm version 4 or later), do the following in the repository directory:
 
 ```bash
-# from root of repository
 npm install
-jupyter labextension link . 
 npm run watch
+jupyter labextension link .
 ```
 
 To rebuild the package and the JupyterLab app:
