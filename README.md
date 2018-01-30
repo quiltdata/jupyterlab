@@ -7,6 +7,8 @@ Quilt Data plugin for JupyterLab
 ### JupyterLab
 This plugin is developed using the latest conda version of Jupyter Lab. Note that Jupyter Lab is in alpha, and conda builds may not be stable. The developer APIs are also unstable, and this extension may break with any update to Jupyter Lab. Please file a GitHub Issue if you have any difficulties.
 
+The instructions to install Jupyter Lab are [here](https://github.com/jupyterlab/jupyterlab#installation).
+
 ## Installation
 
 If you don't have Conda installed, follow [this link](https://conda.io/miniconda.html) and follow the instructions for your OS.
