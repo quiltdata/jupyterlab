@@ -10,15 +10,12 @@ This plugin is developed using the latest conda version of Jupyter Lab. Note tha
 The instructions to install Jupyter Lab are [here](https://github.com/jupyterlab/jupyterlab#installation).
 
 ## Installation
-
-If you don't have Conda installed, follow [this link](https://conda.io/miniconda.html) and follow the instructions for your OS.
-
 ```bash
-conda create -n jupyterlab-quilt python=3.6
-source activate jupyterlab-quilt # omit 'source' on Windows
 pip install quilt
-conda install jupyterlab
+pip install jupyter -U
+pip install jupyterlab
 jupyter labextension install jupyterlab-quilt
+jupyter lab
 ```
 
 ## Running
