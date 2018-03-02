@@ -1,6 +1,6 @@
 {
   "name": "jupyterlab-quilt",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Quilt Data plugin for Jupyter Labs",
   "author": "Calvin Cochran",
   "main": "lib/index.js",
