@@ -26,11 +26,11 @@
     "extension": true
   },
   "dependencies": {
-    "@jupyterlab/application": "^0.16.2",
-    "@jupyterlab/notebook": "^0.16.2",
-    "@types/react": "^16.0.0",
-    "@types/react-dom": "^16.0.0",
+    "@jupyterlab/application": "^0.16.0",
+    "@jupyterlab/notebook": "^0.16.0",
+    "@types/react": "~16.0.19",
+    "@types/react-dom": "~16.0.5",
     "rimraf": "^2.6.1",
-    "typescript": "~2.4.0"
+    "typescript": "~2.6.0"
   }
 }
