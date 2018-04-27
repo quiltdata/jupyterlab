@@ -26,8 +26,8 @@
     "extension": true
   },
   "dependencies": {
-    "@jupyterlab/application": "latest",
-    "@jupyterlab/notebook": "latest",
+    "@jupyterlab/application": "^0.16.2",
+    "@jupyterlab/notebook": "^0.16.2",
     "@types/react": "^16.0.0",
     "@types/react-dom": "^16.0.0"
   },
