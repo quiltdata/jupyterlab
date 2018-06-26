@@ -9,19 +9,17 @@ This plugin is developed using the latest conda version of Jupyter Lab. Note tha
 
 The instructions to install Jupyter Lab are [here](https://github.com/jupyterlab/jupyterlab#installation).
 
-## Installation
+## Install
 ```bash
 pip install quilt
 pip install jupyter -U
 pip install jupyterlab
 jupyter labextension install jupyterlab-quilt
-jupyter lab
 ```
 
-## Running
+## Run
 
 ```bash
-source activate jupyterlab-quilt # omit 'source' on Windows
 jupyter lab
 ```
 
